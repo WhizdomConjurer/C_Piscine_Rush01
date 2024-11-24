@@ -1,69 +1,95 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   remote_solve.c                                     :+:      :+:    :+:   */
+/*   remote_solve01.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reriebsc <reriebsc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/23 18:56:54 by reriebsc          #+#    #+#             */
-/*   Updated: 2024/11/23 22:15:56 by reriebsc         ###   ########.fr       */
+/*   Created: 2024/11/24 10:29:40 by reriebsc          #+#    #+#             */
+/*   Updated: 2024/11/24 15:27:40 by reriebsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
 
-ft_remote_validation00(int **matrix, int *views, int y, int x, int n, int size);
-
-int	ft_remote_solve_00(int **matrix, int *views, int size)
+struct s_Data_Base
 {
-	int	y;
+	int	input_size;
+	int	field_size;
+	int	*views;
+	int	**matrix;
+};
 
-	y = 0;
-	while (y < size)
+void	ft_put_1_column_up(struct s_Data_Base data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data.field_size)
 	{
-		ft_remote_solve_01(matrix, views, y, size);
-		y++;
+		if (data.views[i] == 1)
+			data.matrix[0][i] = data.field_size;
+		i++;
 	}
-	return (0);
 }
 
-int	ft_remote_solve_01(int **matrix, int *views, int y, int size)
+void	ft_put_1_column_down(struct s_Data_Base data)
 {
-	int	x;
-	int	n;
+	int	i;
+	int	f;
+	int	k;
 
-	x = 0;
-	while (x < size)
+	i = 0;
+	f = data.field_size;
+	k = (data.field_size * 2);
+	while (i < data.field_size)
 	{
-		if (matrix[y][x] == 0)
-		{
-			n = 1;
-			while (n <= size)
-			{
-				if (ft_remote_validation00(matrix, views, y, x, n, size))
-				{
-					matrix[y][x] = n;
-					if (ft_remote_solve_00(matrix, views, size))
-						return (1);
-					matrix[y][x] = 0;
-				}
-				n++;
-			}
-		}
-		x++;
+		if (data.views[f] == 1 && f < k)
+			data.matrix[data.field_size - 1][i] = data.field_size;
+		i++;
+		f++;
+		k++;
 	}
-	return (0);
 }
 
-// int	ft_remote_solve_02(int **matrix, int *views, int y, int x, int size)
-// {
-// 	int	n;
+void	ft_put_1_row_left(struct s_Data_Base data)
+{
+	int	i;
+	int	f;
+	int	k;
 
-// 	n = 1;
-// 	while (n <= size)
-// 	{
-// 		/* code */
-// 	}
-// 	return (0);
-// }
+	i = 0;
+	f = (data.field_size * 2);
+	k = (data.field_size * 3);
+	while (i < data.field_size)
+	{
+		if (data.views[f] == 1 && f < k)
+			data.matrix[i][0] = data.field_size;
+		i++;
+		k++;
+		f++;
+	}
+}
+
+void	ft_put_1_row_right(struct s_Data_Base data)
+{
+	int	i;
+	int	f;
+	int	k;
+
+	ft_put_1_column_up(data);
+	ft_put_1_column_down(data);
+	ft_put_1_row_left(data);
+	i = 0;
+	f = (data.field_size * 3);
+	k = (data.field_size * 4);
+	while (i < data.field_size)
+	{
+		if (data.views[f] == 1 && f < k)
+			data.matrix[i][data.field_size - 1] = data.field_size;
+		i++;
+		f++;
+		k++;
+	}
+}

@@ -6,16 +6,27 @@
 /*   By: reriebsc <reriebsc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 12:32:40 by reriebsc          #+#    #+#             */
-/*   Updated: 2024/11/23 22:30:07 by reriebsc         ###   ########.fr       */
+/*   Updated: 2024/11/24 15:48:26 by reriebsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
 
+struct s_Data_Base
+{
+	int	input_size;
+	int	field_size;
+	int	*views;
+	int	**matrix;
+};
+
 int	ft_input_optimizer(char *str);
 int	*ft_remote_view(char *str);
 int	**ft_matrix_generate(int n);
+int	ft_remote_solve_00(struct s_Data_Base data);
+ft_put_n_row_00_right(struct s_Data_Base data);
+ft_put_1_row_right(struct s_Data_Base data);
 
 void	ft_write_error(void)
 {
@@ -24,13 +35,21 @@ void	ft_write_error(void)
 
 int	main(int argc, char argv[])
 {
-	int	size;
-	int	**matrix;
-	int	*views;
+	struct s_Data_Base	data;
 
 	if (argc != 2)
 		ft_write_error();
-	size = ft_input_optimizer(argv[1]);
-	views = *ft_remote_view(argv[1]);
-	matrix = **ft_matrix_generate(size);
+	data.input_size = ft_input_optimizer(argv[1]);
+	data.field_size = data.input_size / 4;
+	data.views = *ft_remote_view(argv[1]);
+	data.matrix = **ft_matrix_generate(data.field_size);
+	ft_manage_solvings(data);
+}
+
+void	ft_manage_solvings(struct s_Data_Base data)
+{
+	ft_put_n_row_00_right(data);
+	ft_put_1_row_right(data);
+	ft_remote_solve_00(data);
+	ft_print_matrix(data);
 }

@@ -6,27 +6,35 @@
 /*   By: reriebsc <reriebsc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 14:56:22 by reriebsc          #+#    #+#             */
-/*   Updated: 2024/11/23 21:04:18 by reriebsc         ###   ########.fr       */
+/*   Updated: 2024/11/24 15:29:23 by reriebsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
 
-void	ft_print_matrix(int **matrix, int size)
+struct s_Data_Base
+{
+	int	input_size;
+	int	field_size;
+	int	*views;
+	int	**matrix;
+};
+
+void	ft_print_matrix(struct s_Data_Base data)
 {
 	int	y;
 	int	x;
 
 	y = 0;
-	while (y <= size -1)
+	while (y <= data.field_size -1)
 	{
 		x = 0;
-		while (x <= size -1)
+		while (x <= data.field_size -1)
 		{
 			if (x > 0)
 				write(1, &" ", 1);
-			write(1, &(char){matrix[y][x] + 48}, 1);
+			write(1, &(char){data.matrix[y][x] + 48}, 1);
 			x++;
 		}
 		write(1, &"\n", 1);

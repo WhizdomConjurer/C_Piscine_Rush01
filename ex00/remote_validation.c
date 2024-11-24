@@ -6,29 +6,38 @@
 /*   By: reriebsc <reriebsc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 20:01:15 by reriebsc          #+#    #+#             */
-/*   Updated: 2024/11/23 23:12:46 by reriebsc         ###   ########.fr       */
+/*   Updated: 2024/11/24 15:40:20 by reriebsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdlib.h>
 
-int	ft_remote_validation00(int **matrix, int *views, int y, int x, int n, int size)
+struct s_Data_Base
+{
+	int	input_size;
+	int	field_size;
+	int	*views;
+	int	**matrix;
+};
+
+int	ft_remote_validation_col_row(struct s_Data_Base data, int y, int x, int n)
 {
 	int	i;
 	int	max;
 	int	count;
 
 	i = 0;
-	while (i < size)
+	while (i < data.field_size)
 	{
-		if (matrix[y][i++] == n || matrix[i][x] == n)
+		if (data.matrix[y][i] == n || data.matrix[i][x] == n)
 			return (0);
+		i++;
 	}
-	
+	return (1);
 }
 
-ft_remote_validation_top(int **matrix, int *views, int y, int x, int n, int size)
+int	ft_remote_validation_top(struct s_Data_Base data, int y, int x, int n)
 {
 	int	i;
 	int	max;
@@ -39,30 +48,32 @@ ft_remote_validation_top(int **matrix, int *views, int y, int x, int n, int size
 	i = 0;
 	while (i <= x)
 	{
-		if (matrix[i++][x] > max && (++count))
-			max = matrix[i - 1][x];
+		if (data.matrix[i++][x] > max && (++count))
+			max = data.matrix[i - 1][x];
 	}
-	if (x == size - 1 && count != views[size + y])
+	if (x == data.field_size - 1 && count != data.views[x])
 		return (0);
+	return (1);
 }
 
-ft_remote_validation_bottom(int **matrix, int *views, int y, int x, int n, int size)
+int	ft_remote_validation_bottom(struct s_Data_Base data, int y, int x, int n)
 {
 	int	i;
 	int	max;
 	int	count;
 
-	i = size -1;
-	while(i >= y)
+	i = data.field_size -1;
+	while (i >= y)
 	{
-		if(matrix[i--][x] > max && (++count))
-			max = matrix[i + 1][x];
+		if (data.matrix[i--][x] > max && (++count))
+			max = data.matrix[i + 1][x];
 	}
-	if (y == 0 && count != views[3 * size + x])
+	if (y == 0 && count != data.views[data.field_size + x])
 		return (0);
+	return (1);
 }
 
-ft_remote_validation_left(int **matrix, int *views, int y, int x, int n, int size)
+int	ft_remote_validation_left(struct s_Data_Base data, int y, int x, int n)
 {
 	int	i;
 	int	max;
@@ -73,25 +84,34 @@ ft_remote_validation_left(int **matrix, int *views, int y, int x, int n, int siz
 	i = 0;
 	while (i <= x)
 	{
-		if (matrix[y][i++] > max && (++count))
-			max = matrix[y][i - 1];	
+		if (data.matrix[y][i++] > max && (++count))
+		{
+			max = data.matrix[y][i - 1];
+		}
 	}
-	if (y == size - 1 && count != views[size + x])
+	if (y == data.field_size - 1
+		&& count != data.views[2 * data.field_size + y])
 		return (0);
+	return (1);
 }
 
-ft_remote_validation_right(int **matrix, int *views, int y, int x, int n, int size)
+int	ft_remote_validation_00_right(struct s_Data_Base data, int y, int x, int n)
 {
 	int	i;
 	int	max;
 	int	count;
 
-	i = size -1;
+	ft_remote_validation_col_row(data, y, x, n);
+	ft_remote_validation_top(data, y, x, n);
+	ft_remote_validation_bottom(data, y, x, n);
+	ft_remote_validation_left(data, y, x, n);
+	i = data.field_size -1;
 	while (i >= x)
 	{
-		if(matrix[y][i--] > max && (++count))
-			max = matrix[y][i + 1];
+		if (data.matrix[y][i--] > max && (++count))
+			max = data.matrix[y][i + 1];
 	}
-	if(x == 0 && count != views[2 * size + x])
+	if (x == 0 && count != data.views[3 * data.field_size + y])
 		return (0);
+	return (1);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   matrix_generate.c                                  :+:      :+:    :+:   */
+/*   remote_solve02.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: reriebsc <reriebsc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/23 15:50:28 by reriebsc          #+#    #+#             */
-/*   Updated: 2024/11/24 15:27:34 by reriebsc         ###   ########.fr       */
+/*   Created: 2024/11/23 18:56:54 by reriebsc          #+#    #+#             */
+/*   Updated: 2024/11/24 15:27:42 by reriebsc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,46 +21,45 @@ struct s_Data_Base
 	int	**matrix;
 };
 
-void	ft_free_matrix(struct s_Data_Base data);
+int	ft_remote_validation_00_right(struct s_Data_Base data, int y, int x, int n);
 
-int	**ft_matrix_generate(struct s_Data_Base data)
+int	ft_remote_solve_00(struct s_Data_Base data)
 {
-	int	**matrix;
-	int	x;
 	int	y;
 
 	y = 0;
-	matrix = (int **)malloc(data.field_size * sizeof(int *));
-	if (!matrix)
-		return (0);
 	while (y < data.field_size)
 	{
-		matrix[y] = (int *)malloc(data.field_size * sizeof(int));
-		if (!matrix[y])
-		{
-			ft_free_matrix(data);
-			return (0);
-		}
-		x = 0;
-		while (x < data.field_size)
-		{
-			matrix[y][x] = 0;
-			x++;
-		}
+		ft_remote_solve_01(data, y);
 		y++;
 	}
-	return (matrix);
+	return (0);
 }
 
-void	ft_free_matrix(struct s_Data_Base data)
+int	ft_remote_solve_01(struct s_Data_Base data, int y)
 {
 	int	x;
+	int	n;
 
 	x = 0;
 	while (x < data.field_size)
 	{
-		free(data.matrix[x]);
+		if (data.matrix[y][x] == 0)
+		{
+			n = 1;
+			while (n <= data.field_size)
+			{
+				if (ft_remote_validation00_right(data, y, x, n))
+				{
+					data.matrix[y][x] = n;
+					if (ft_remote_solve_00(data))
+						return (1);
+					data.matrix[y][x] = 0;
+				}
+				n++;
+			}
+		}
 		x++;
 	}
-	free(data.matrix);
+	return (0);
 }
