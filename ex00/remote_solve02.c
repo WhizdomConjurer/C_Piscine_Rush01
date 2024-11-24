@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remote_solve02.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reriebsc <reriebsc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cgarces- <cgarces-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 18:56:54 by reriebsc          #+#    #+#             */
-/*   Updated: 2024/11/24 15:27:42 by reriebsc         ###   ########.fr       */
+/*   Updated: 2024/11/24 17:07:08 by cgarces-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ struct s_Data_Base
 };
 
 int	ft_remote_validation_00_right(struct s_Data_Base data, int y, int x, int n);
+
+int	ft_remote_solve_01(struct s_Data_Base data, int y);
 
 int	ft_remote_solve_00(struct s_Data_Base data)
 {
@@ -49,7 +51,7 @@ int	ft_remote_solve_01(struct s_Data_Base data, int y)
 			n = 1;
 			while (n <= data.field_size)
 			{
-				if (ft_remote_validation00_right(data, y, x, n))
+				if (ft_remote_validation_00_right(data, y, x, n))
 				{
 					data.matrix[y][x] = n;
 					if (ft_remote_solve_00(data))

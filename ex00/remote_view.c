@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remote_view.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reriebsc <reriebsc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cgarces- <cgarces-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 14:47:52 by reriebsc          #+#    #+#             */
-/*   Updated: 2024/11/24 15:27:32 by reriebsc         ###   ########.fr       */
+/*   Updated: 2024/11/24 18:06:19 by cgarces-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,18 @@ int	*ft_remote_view(char *str)
 	if (!views)
 		return (0);
 	x = 0;
-	x2 = 0;
-	while (str[x] != '\0' && x2 < size)
+	x2 = -1;
+	while (str[x] != '\0' && x2 <= size)
 	{
 		if (str[x] >= '1' && str[x] <= '9')
 			views[x2++] = str[x] - '0';
-		else if (str[x] != ' ')
+		else if (!(str[x] == ' ' || (str[x] >= '1' && str[x] <= '9')))
+		{
 			free(views);
+			break ;
+		}
 		x++;
 	}
-	if (x2 != size || str[x] != '\0')
-	{
-		free(views);
-		return (0);
-	}
+	write(1, "a\n", 2);
 	return (views);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_matrix.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reriebsc <reriebsc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cgarces- <cgarces-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 14:56:22 by reriebsc          #+#    #+#             */
-/*   Updated: 2024/11/24 15:29:23 by reriebsc         ###   ########.fr       */
+/*   Updated: 2024/11/24 18:09:13 by cgarces-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,17 @@ void	ft_print_matrix(struct s_Data_Base data)
 	int	x;
 
 	y = 0;
-	while (y <= data.field_size -1)
+	while (y <= data.field_size - 1)
 	{
 		x = 0;
-		while (x <= data.field_size -1)
+		while (x <= data.field_size - 1)
 		{
 			if (x > 0)
-				write(1, &" ", 1);
+				write(1, " ", 1);
 			write(1, &(char){data.matrix[y][x] + 48}, 1);
 			x++;
 		}
-		write(1, &"\n", 1);
+		write(1, "\n", 1);
 		y++;
 	}
 }

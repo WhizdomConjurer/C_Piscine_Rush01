@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   remote_validation.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: reriebsc <reriebsc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cgarces- <cgarces-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/23 20:01:15 by reriebsc          #+#    #+#             */
-/*   Updated: 2024/11/24 15:40:20 by reriebsc         ###   ########.fr       */
+/*   Updated: 2024/11/24 17:26:29 by cgarces-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ struct s_Data_Base
 int	ft_remote_validation_col_row(struct s_Data_Base data, int y, int x, int n)
 {
 	int	i;
-	int	max;
-	int	count;
 
 	i = 0;
 	while (i < data.field_size)
@@ -37,7 +35,7 @@ int	ft_remote_validation_col_row(struct s_Data_Base data, int y, int x, int n)
 	return (1);
 }
 
-int	ft_remote_validation_top(struct s_Data_Base data, int y, int x, int n)
+int	ft_remote_validation_top(struct s_Data_Base data, int x)
 {
 	int	i;
 	int	max;
@@ -56,13 +54,14 @@ int	ft_remote_validation_top(struct s_Data_Base data, int y, int x, int n)
 	return (1);
 }
 
-int	ft_remote_validation_bottom(struct s_Data_Base data, int y, int x, int n)
+int	ft_remote_validation_bottom(struct s_Data_Base data, int y, int x)
 {
 	int	i;
 	int	max;
 	int	count;
 
 	i = data.field_size -1;
+	count = 0;
 	while (i >= y)
 	{
 		if (data.matrix[i--][x] > max && (++count))
@@ -73,7 +72,7 @@ int	ft_remote_validation_bottom(struct s_Data_Base data, int y, int x, int n)
 	return (1);
 }
 
-int	ft_remote_validation_left(struct s_Data_Base data, int y, int x, int n)
+int	ft_remote_validation_left(struct s_Data_Base data, int y, int x)
 {
 	int	i;
 	int	max;
@@ -101,10 +100,11 @@ int	ft_remote_validation_00_right(struct s_Data_Base data, int y, int x, int n)
 	int	max;
 	int	count;
 
+	count = 0;
 	ft_remote_validation_col_row(data, y, x, n);
-	ft_remote_validation_top(data, y, x, n);
-	ft_remote_validation_bottom(data, y, x, n);
-	ft_remote_validation_left(data, y, x, n);
+	ft_remote_validation_top(data, x);
+	ft_remote_validation_bottom(data, y, x);
+	ft_remote_validation_left(data, y, x);
 	i = data.field_size -1;
 	while (i >= x)
 	{
